@@ -1,12 +1,10 @@
 #pragma once
 
-#include <boost/variant/static_visitor.hpp>
-
 #include "mstch/mstch.hpp"
 
 namespace mstch {
 
-class has_token: public boost::static_visitor<bool> {
+class has_token {
  public:
   has_token(const std::string& token): m_token(token) {
   }

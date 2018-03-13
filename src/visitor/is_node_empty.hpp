@@ -1,12 +1,10 @@
 #pragma once
 
-#include <boost/variant/static_visitor.hpp>
-
 #include "mstch/mstch.hpp"
 
 namespace mstch {
 
-class is_node_empty: public boost::static_visitor<bool> {
+class is_node_empty {
  public:
   template<class T>
   bool operator()(const T&) const {

@@ -6,7 +6,7 @@
 #include <memory>
 #include <functional>
 
-#include <boost/variant.hpp>
+#include <variant>
 
 namespace mstch {
 
@@ -93,12 +93,33 @@ class lambda_t {
 
 }
 
-using node = boost::make_recursive_variant<
-    std::nullptr_t, std::string, int, double, bool,
-    internal::lambda_t<boost::recursive_variant_>,
-    std::shared_ptr<internal::object_t<boost::recursive_variant_>>,
-    std::map<const std::string, boost::recursive_variant_>,
-    std::vector<boost::recursive_variant_>>::type;
+struct node : std::variant<
+    std::monostate, std::nullptr_t, std::string, int, double, bool,
+    internal::lambda_t<node>,
+    std::shared_ptr<internal::object_t<node>>,
+    std::map<const std::string, node>,
+    std::vector<node>
+> {
+  using lambda_type = internal::lambda_t<node>;
+  using shared_ptr_type = std::shared_ptr<internal::object_t<node>>;
+  using map_type = std::map<const std::string, node>;
+  using vector_type = std::vector<node>;
+
+  using base_type = std::variant<
+    std::monostate, std::nullptr_t, std::string, int, double, bool,
+    lambda_type, shared_ptr_type, map_type, vector_type
+  >;
+
+  using base_type::base_type;
+
+  node() : base_type(std::in_place_type<std::monostate>) {}
+
+  node(const char* value) : base_type(std::in_place_type<std::string>, value) {}
+
+  base_type& base() { return *this; }
+  base_type const& base() const { return *this; }
+};
+
 using object = internal::object_t<node>;
 using lambda = internal::lambda_t<node>;
 using map = std::map<const std::string, node>;
