@@ -25,7 +25,7 @@ class object_t {
   }
 
   bool has(const std::string name) const {
-    return methods.count(name) != 0;
+    return methods.find(name) != methods.end();
   }
 
  protected:
@@ -101,13 +101,13 @@ struct node : std::variant<
     std::vector<node>
 > {
   using lambda_type = internal::lambda_t<node>;
-  using shared_ptr_type = std::shared_ptr<internal::object_t<node>>;
+  using object_type = internal::object_t<node>;
   using map_type = std::map<const std::string, node>;
   using vector_type = std::vector<node>;
 
   using base_type = std::variant<
     std::monostate, std::nullptr_t, std::string, int, double, bool,
-    lambda_type, shared_ptr_type, map_type, vector_type
+    lambda_type, std::shared_ptr<object_type>, map_type, vector_type
   >;
 
   using base_type::base_type;
@@ -125,10 +125,25 @@ using lambda = internal::lambda_t<node>;
 using map = std::map<const std::string, node>;
 using array = std::vector<node>;
 
-std::string render(
-    const std::string& tmplt,
-    const node& root,
-    const std::map<std::string,std::string>& partials =
-        std::map<std::string,std::string>());
+class template_type;
 
+class cache {
+ public:
+  cache();
+  virtual ~cache();
+
+  cache(cache&&);
+  cache(const cache&);
+  cache& operator=(cache&&);
+  cache& operator=(const cache&);
+
+  const template_type& at(const std::string&);
+  std::string render(const std::string& partial, const node& root);
+
+ protected:
+  virtual std::string load(const std::string& partial) = 0;
+
+ private:
+  std::map<std::string, template_type> m_loaded;
+};
 }

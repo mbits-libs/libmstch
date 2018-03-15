@@ -7,14 +7,22 @@ using namespace mstch;
 
 std::function<std::string(const std::string&)> mstch::config::escape;
 
-std::string mstch::render(
-    const std::string& tmplt,
-    const node& root,
-    const std::map<std::string,std::string>& partials)
-{
-  std::map<std::string, template_type> partial_templates;
-  for (auto& partial: partials)
-    partial_templates.insert({partial.first, {partial.second}});
+mstch::cache::cache() = default;
+mstch::cache::~cache() = default;
 
-  return render_context(root, partial_templates).render(tmplt);
+mstch::cache::cache(cache&&) = default;
+mstch::cache::cache(const cache&) = default;
+mstch::cache& mstch::cache::operator=(cache&&) = default;
+mstch::cache& mstch::cache::operator=(const cache&) = default;
+
+const mstch::template_type& mstch::cache::at(const std::string& partial_name) {
+  auto it = m_loaded.lower_bound(partial_name);
+  if (it == m_loaded.end() || it->first != partial_name)
+    it = m_loaded.insert(it, { partial_name,{ load(partial_name) } });
+  return it->second;
+}
+std::string mstch::cache::render(
+    const std::string& partial, const node& root)
+{
+  return render_context(root, *this).render_partial(partial, {});
 }
