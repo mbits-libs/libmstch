@@ -91,23 +91,32 @@ class lambda_t {
   std::function<std::string(node_renderer<N> renderer, const std::string&)> fun;
 };
 
+template<class N>
+struct callback_t {
+	virtual ~callback_t() = default;
+	virtual const N& at(const std::string& name) const = 0;
+	virtual bool has(const std::string& name) const = 0;
+};
+
 }
 
 struct node : std::variant<
     std::monostate, std::nullptr_t, std::string, int, double, bool,
     internal::lambda_t<node>,
     std::shared_ptr<internal::object_t<node>>,
+    std::shared_ptr<internal::callback_t<node>>,
     std::map<const std::string, node>,
     std::vector<node>
 > {
   using lambda_type = internal::lambda_t<node>;
   using object_type = internal::object_t<node>;
+  using callback_type = internal::callback_t<node>;
   using map_type = std::map<const std::string, node>;
   using vector_type = std::vector<node>;
 
   using base_type = std::variant<
     std::monostate, std::nullptr_t, std::string, int, double, bool,
-    lambda_type, std::shared_ptr<object_type>, map_type, vector_type
+    lambda_type, std::shared_ptr<object_type>, std::shared_ptr<callback_type>, map_type, vector_type
   >;
 
   using base_type::base_type;
@@ -121,6 +130,7 @@ struct node : std::variant<
 };
 
 using object = internal::object_t<node>;
+using callback = internal::callback_t<node>;
 using lambda = internal::lambda_t<node>;
 using map = std::map<const std::string, node>;
 using array = std::vector<node>;
@@ -142,6 +152,7 @@ class cache {
 
  protected:
   virtual std::string load(const std::string& partial) = 0;
+  virtual bool is_valid(const std::string& partial) = 0;
 
  private:
   std::map<std::string, template_type> m_loaded;

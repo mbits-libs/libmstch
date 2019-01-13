@@ -22,6 +22,10 @@ class has_token {
     return object->has(m_token);
   }
 
+  bool operator()(const std::shared_ptr<callback>& object) const {
+    return object->has(m_token);
+  }
+
  private:
   const std::string& m_token;
 };

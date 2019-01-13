@@ -25,6 +25,10 @@ class get_token {
     return object->at(m_token);
   }
 
+  const mstch::node& operator()(const std::shared_ptr<callback>& object) const {
+    return object->at(m_token);
+  }
+
  private:
   const std::string& m_token;
   const mstch::node& m_node;

@@ -19,6 +19,8 @@ const mstch::template_type& mstch::cache::at(const std::string& partial_name) {
   auto it = m_loaded.lower_bound(partial_name);
   if (it == m_loaded.end() || it->first != partial_name)
     it = m_loaded.insert(it, { partial_name,{ load(partial_name) } });
+  else if (!is_valid(partial_name))
+    it->second = load(partial_name);
   return it->second;
 }
 std::string mstch::cache::render(
