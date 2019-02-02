@@ -26,7 +26,7 @@ class render_section {
 		  for (auto& token : m_section)
 			  section_str += token.raw();
 		  template_type interpreted{ value([this](const mstch::node& n) {
-			  return visit(render_node(m_ctx), n);
+			  return mstch::visit(render_node(m_ctx), n);
 		  }, section_str), m_delims };
 		  return render_context::push(m_ctx).render(interpreted);
 	  } else if constexpr(is_v<T, array>) {
@@ -35,7 +35,7 @@ class render_section {
         return render_context::push(m_ctx, value).render(m_section);
       else
         for (auto& item: value)
-          out += visit(render_section(
+          out += mstch::visit(render_section(
               m_ctx, m_section, m_delims, flag::keep_array), item);
       return out;
 	  }

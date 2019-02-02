@@ -28,7 +28,7 @@ public:
       return value ? "true" : "false";
     } else if constexpr(is_v<T, lambda>) {
       template_type interpreted{ value([this](const mstch::node& n) {
-        return visit(render_node(m_ctx), n);
+        return mstch::visit(render_node(m_ctx), n);
       }) };
       auto rendered = render_context::push(m_ctx).render(interpreted);
       return (m_flag == flag::escape_html) ? html_escape(rendered) : rendered;
