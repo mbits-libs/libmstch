@@ -3,6 +3,7 @@ project(mstch)
 
 option(WITH_UNIT_TESTS "enable building unit test executable" OFF)
 option(WITH_BENCHMARK "enable building benchmark executable" OFF)
+option(WITH_INSTALLER "enable installer" ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)

@@ -23,6 +23,7 @@ add_library(mstch STATIC ${SRC})
 
 set_property(TARGET mstch PROPERTY VERSION ${mstch_VERSION})
 
+if (WITH_INSTALLER)
 install(
     TARGETS mstch EXPORT mstchTargets
     LIBRARY DESTINATION lib
@@ -59,3 +60,4 @@ install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/mstch/mstch-config-version.cmake"
     DESTINATION lib/cmake/mstch
     COMPONENT Devel)
+endif(WITH_INSTALLER)
