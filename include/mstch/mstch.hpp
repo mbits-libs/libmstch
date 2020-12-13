@@ -135,26 +135,40 @@ using lambda = internal::lambda_t<node>;
 using map = std::map<const std::string, node>;
 using array = std::vector<node>;
 
+std::string render(
+    const std::string& tmplt,
+    const node& root,
+    const std::map<std::string,std::string>& partials =
+        std::map<std::string,std::string>());
+
 class template_type;
 
-class cache {
- public:
-  cache();
-  virtual ~cache();
+class cache_base {
+public:
+	cache_base();
+	virtual ~cache_base();
 
-  cache(cache&&);
-  cache(const cache&);
-  cache& operator=(cache&&);
-  cache& operator=(const cache&);
+	cache_base(cache_base&&);
+	cache_base(const cache_base&);
+	cache_base& operator=(cache_base&&);
+	cache_base& operator=(const cache_base&);
 
-  const template_type& at(const std::string&);
-  std::string render(const std::string& partial, const node& root);
-
- protected:
-  virtual std::string load(const std::string& partial) = 0;
-  virtual bool is_valid(const std::string& partial) = 0;
-
- private:
-  std::map<std::string, template_type> m_loaded;
+	virtual const template_type& at(const std::string&) = 0;
+	virtual bool is_valid(const std::string&) const = 0;
 };
+
+class cache : public cache_base {
+public:
+	bool is_valid(const std::string&) const override;
+	const template_type& at(const std::string&) override;
+	std::string render(const std::string& partial, const node& root);
+
+protected:
+	virtual std::string load(const std::string& partial) = 0;
+	virtual bool need_update(const std::string& partial) const = 0;
+
+private:
+	std::map<std::string, template_type> m_loaded;
+};
+
 }

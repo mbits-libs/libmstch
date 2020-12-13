@@ -26,7 +26,7 @@ std::string render_context::push::render(const template_type& templt) {
 
 render_context::render_context(
     const mstch::node& node,
-    cache& partials):
+    cache_base& partials):
     m_partials(partials), m_nodes(1, node), m_node_ptrs(1, &node)
 {
   m_state.push(std::unique_ptr<render_state>(new outside_section));
@@ -67,5 +67,7 @@ std::string render_context::render(
 std::string render_context::render_partial(
     const std::string& partial_name, const std::string& prefix)
 {
+  if (!m_partials.is_valid(partial_name))
+    return {};
   return render(m_partials.at(partial_name), prefix);
 }

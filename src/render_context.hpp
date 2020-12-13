@@ -25,7 +25,7 @@ class render_context {
 
   render_context(
       const mstch::node& node,
-      cache& partials);
+      cache_base& partials);
   const mstch::node& get_node(const std::string& token);
   std::string render(
       const template_type& templt, const std::string& prefix = "");
@@ -42,7 +42,7 @@ class render_context {
   const mstch::node& find_node(
       const std::string& token,
       std::list<node const*> current_nodes);
-  cache& m_partials;
+  cache_base& m_partials;
   std::deque<mstch::node> m_nodes;
   std::list<const mstch::node*> m_node_ptrs;
   std::stack<std::unique_ptr<render_state>> m_state;
