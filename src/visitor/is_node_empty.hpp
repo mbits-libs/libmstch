@@ -11,19 +11,19 @@ class is_node_empty {
     return false;
   }
 
-  bool operator()(const std::nullptr_t&) const {
+  bool operator()(std::nullptr_t) const {
     return true;
   }
 
-  bool operator()(const int& value) const {
+  bool operator()(long long value) const {
     return value == 0;
   }
 
-  bool operator()(const double& value) const {
+  bool operator()(double value) const {
     return value == 0;
   }
 
-  bool operator()(const bool& value) const {
+  bool operator()(bool value) const {
     return !value;
   }
 

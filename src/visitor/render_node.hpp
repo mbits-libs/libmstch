@@ -18,7 +18,7 @@ public:
 
   template <typename T>
   std::string operator()(const T& value) const {
-    if constexpr(is_v<T, int>) {
+    if constexpr(is_v<T, long long>) {
       return std::to_string(value);
     } else if constexpr(is_v<T, double>) {
       std::stringstream ss;

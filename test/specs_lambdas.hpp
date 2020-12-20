@@ -9,7 +9,7 @@ std::map<std::string,mstch::node> specs_lambdas {
       return std::string{"|planet| => {{planet}}"};
     }}},
     {"Interpolation - Multiple Calls", mstch::lambda{[](const std::string&) -> mstch::node {
-      static int calls = 0; return ++calls;
+      static long long calls = 0; return ++calls;
     }}},
     {"Escaping", mstch::lambda{[](const std::string&) -> mstch::node {
       return std::string{">"};

@@ -1,6 +1,6 @@
 class dot_notation_price: public mstch::object {
 private:
-  int m_value;
+  long long m_value;
   mstch::map m_currency;
 public:
   dot_notation_price():

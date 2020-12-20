@@ -1,6 +1,6 @@
 class partial_whitespace: public mstch::object {
 private:
-  int m_value;
+  long long m_value;
 public:
   partial_whitespace(): m_value(10000) {
     register_methods(this, std::map<std::string,mstch::node(partial_whitespace::*)()>{
@@ -30,7 +30,7 @@ public:
   }
 
   mstch::node taxed_value() {
-    return static_cast<int>(m_value - (m_value * 0.4));
+    return static_cast<long long>(m_value - (m_value * 0.4));
   }
 
   mstch::node in_ca() {

@@ -101,7 +101,7 @@ struct callback_t {
 }
 
 struct node : std::variant<
-    std::monostate, std::nullptr_t, std::string, int, double, bool,
+    std::monostate, std::nullptr_t, std::string, long long, double, bool,
     internal::lambda_t<node>,
     std::shared_ptr<internal::object_t<node>>,
     std::shared_ptr<internal::callback_t<node>>,
@@ -115,7 +115,7 @@ struct node : std::variant<
   using vector_type = std::vector<node>;
 
   using base_type = std::variant<
-    std::monostate, std::nullptr_t, std::string, int, double, bool,
+    std::monostate, std::nullptr_t, std::string, long long, double, bool,
     lambda_type, std::shared_ptr<object_type>, std::shared_ptr<callback_type>, map_type, vector_type
   >;
 
