@@ -29,7 +29,7 @@ mstch::cache_base::cache_base(const cache_base&) = default;
 mstch::cache_base& mstch::cache_base::operator=(cache_base&&) = default;
 mstch::cache_base& mstch::cache_base::operator=(const cache_base&) = default;
 
-bool mstch::cache::is_valid(const std::string& partial_name) const {
+bool mstch::cache::is_valid(const std::string& /*partial_name*/) const {
 	return true;
 }
 
