@@ -36,7 +36,7 @@ std::string mstch::html_escape(const std::string& str) {
       case '"': add_escape("&quot;", it); break;
       case '<': add_escape("&lt;", it); break;
       case '>': add_escape("&gt;", it); break;
-      case '/': add_escape("&#x2F;", it); break;
+      // case '/': add_escape("&#x2F;", it); break;
       default: break;
     }
 
