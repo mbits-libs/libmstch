@@ -7,9 +7,8 @@ option(WITH_INSTALLER "enable installer" ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
-# set(CMAKE_BUILD_TYPE Release)
 
-set(mstch_VERSION 1.0.1)
+set(mstch_VERSION 1.0.2)
 
 if(NOT MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Wextra -O3")
