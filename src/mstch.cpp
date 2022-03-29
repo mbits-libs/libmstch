@@ -29,8 +29,16 @@ mstch::cache_base::cache_base(const cache_base&) = default;
 mstch::cache_base& mstch::cache_base::operator=(cache_base&&) = default;
 mstch::cache_base& mstch::cache_base::operator=(const cache_base&) = default;
 
-bool mstch::cache::is_valid(const std::string& /*partial_name*/) const {
-	return true;
+cache::cache() = default;
+cache::~cache() = default;
+
+cache::cache(cache&&) = default;
+cache::cache(const cache&) = default;
+cache &cache::operator=(cache&&) = default;
+cache &cache::operator=(const cache&) = default;
+
+bool mstch::cache::is_valid(const std::string & /*partial_name*/) const {
+  return true;
 }
 
 const mstch::template_type& mstch::cache::at(const std::string& partial_name) {

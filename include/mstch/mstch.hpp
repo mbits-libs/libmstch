@@ -159,9 +159,17 @@ public:
 
 class cache : public cache_base {
 public:
-	bool is_valid(const std::string&) const override;
-	const template_type& at(const std::string&) override;
-	std::string render(const std::string& partial, const node& root);
+  cache();
+  ~cache();
+
+  cache(cache&&);
+  cache(const cache&);
+  cache &operator=(cache&&);
+  cache &operator=(const cache&);
+
+  bool is_valid(const std::string &) const override;
+  const template_type &at(const std::string &) override;
+  std::string render(const std::string &partial, const node &root);
 
 protected:
 	virtual std::string load(const std::string& partial) = 0;
