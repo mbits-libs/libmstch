@@ -24,40 +24,11 @@ target_include_directories(mstch PUBLIC
 set_property(TARGET mstch PROPERTY VERSION ${mstch_VERSION})
 
 if (WITH_INSTALLER)
-install(
-    TARGETS mstch EXPORT mstchTargets
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib)
+    install(TARGETS mstch EXPORT mbits)
+    install(EXPORT mbits NAMESPACE mbits:: DESTINATION lib/cmake)
 
-install(
-    FILES "${PROJECT_SOURCE_DIR}/include/mstch/mstch.hpp"
-    DESTINATION include/mstch
-    COMPONENT Devel)
-
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/mstch/mstch-config-version.cmake"
-    VERSION ${mstch_VERSION}
-    COMPATIBILITY AnyNewerVersion)
-
-export(
-    EXPORT mstchTargets
-    FILE "${CMAKE_CURRENT_BINARY_DIR}/mstch/mstch-targets.cmake"
-    NAMESPACE mstch::)
-
-configure_file(
-    "${PROJECT_SOURCE_DIR}/cmake/mstch-config.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/mstch/mstch-config.cmake")
-
-install(
-    EXPORT mstchTargets
-    FILE mstch-targets.cmake
-    NAMESPACE mstch::
-    DESTINATION lib/cmake/mstch)
-
-install(FILES
-    "${PROJECT_SOURCE_DIR}/cmake/mstch-config.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/mstch/mstch-config-version.cmake"
-    DESTINATION lib/cmake/mstch
-    COMPONENT Devel)
+    install(
+        FILES "${PROJECT_SOURCE_DIR}/include/mstch/mstch.hpp"
+        DESTINATION include/mstch
+        COMPONENT Devel)
 endif(WITH_INSTALLER)
