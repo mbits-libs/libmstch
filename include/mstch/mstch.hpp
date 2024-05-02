@@ -96,6 +96,7 @@ struct callback_t {
 	virtual ~callback_t() = default;
 	virtual const N& at(const std::string& name) const = 0;
 	virtual bool has(const std::string& name) const = 0;
+	virtual std::vector<std::string> debug_all_keys() const = 0;
 };
 
 }
@@ -105,13 +106,13 @@ struct node : std::variant<
     internal::lambda_t<node>,
     std::shared_ptr<internal::object_t<node>>,
     std::shared_ptr<internal::callback_t<node>>,
-    std::map<const std::string, node>,
+    std::map<std::string, node>,
     std::vector<node>
 > {
   using lambda_type = internal::lambda_t<node>;
   using object_type = internal::object_t<node>;
   using callback_type = internal::callback_t<node>;
-  using map_type = std::map<const std::string, node>;
+  using map_type = std::map<std::string, node>;
   using vector_type = std::vector<node>;
 
   using base_type = std::variant<
@@ -132,7 +133,7 @@ struct node : std::variant<
 using object = internal::object_t<node>;
 using callback = internal::callback_t<node>;
 using lambda = internal::lambda_t<node>;
-using map = std::map<const std::string, node>;
+using map = std::map<std::string, node>;
 using array = std::vector<node>;
 
 std::string render(
